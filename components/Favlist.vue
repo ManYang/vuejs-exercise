@@ -1,15 +1,42 @@
 <template>
-<div class="message">{{ msg }}</div>
+<div class="todolist">
+	<h1>{{title}}</h1>
+	<input v-model="newList" v-on:keyup.enter="addNew"></input>
+	<ul>
+		<li v-for="item in items" v-bind:class="{finished: item.isFinished}" v-on:click="toggle(item)">{{item.label}}</li>
+	</ul>
+</div>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      msg: '123'
+      title: 'This is a todo list',
+      items:[
+      	{
+      		label:'coding',
+      		isFinished: false
+      	},
+       	{
+      		label:'sleeping',
+      		isFinished: true
+      	}     	
+      ],
+      newList:""
     }
   },
   methods:{
+  	toggle:function(item){
+  		item.isFinished = !item.isFinished;
+  	},
+  	addNew:function(){
+  		this.items.push({
+  			label:this.newList,
+  			isFinished:false
+  		})
+  		this.newList="";
+  	},
   	 greeting(){
   	 	var xhr = new XMLHttpRequest();
   	 	this.msg=456;
@@ -29,7 +56,7 @@ export default {
 </script>
 
 <style>
-.message {
-  color: red;
+.finished{
+	text-decoration: line-through;
 }
 </style>

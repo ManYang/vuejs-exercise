@@ -35,13 +35,13 @@ app.use(devMiddleware)
 // 注册中间件
 app.use(hotMiddleware)
 
-app.get('/', function (req, res, next) {
-  res.send('hello world')
-});
+// app.get('/', function (req, res, next) {
+//   res.send('hello world')
+// });
 
-app.get('/user', function (req, res, next) {
-  res.send('user 1');
-});
+// app.get('/user', function (req, res, next) {
+//   res.send('user 1');
+// });
 // 监听 8888端口，开启服务器
 app.listen(8888, function (err) {
     if (err) {
