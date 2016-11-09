@@ -5,6 +5,8 @@
 	<ul>
 		<li v-for="item in items" v-bind:class="{finished: item.isFinished}" v-on:click="toggle(item)">{{item.label}}</li>
 	</ul>
+
+	<div v-on:click="greeting">click me {{msg}}</div>
 </div>
 </template>
 
@@ -13,6 +15,7 @@ export default {
   data () {
     return {
       title: 'This is a todo list',
+      msg:'',
       items:[
       	{
       		label:'coding',
@@ -27,25 +30,25 @@ export default {
     }
   },
   methods:{
-  	toggle:function(item){
+  	toggle(item){
   		item.isFinished = !item.isFinished;
   	},
-  	addNew:function(){
+  	addNew(){
   		this.items.push({
   			label:this.newList,
   			isFinished:false
   		})
   		this.newList="";
   	},
-  	 greeting(){
+  	greeting(){
+  		var self = this;
   	 	var xhr = new XMLHttpRequest();
-  	 	this.msg=456;
-    	xhr.open('GET', 'http://localhost:8888/user', false);
+    	xhr.open('GET', 'http://localhost:8888/list', false);
     	xhr.setRequestHeader("Content-Type", "text/plain");
     	xhr.onreadystatechange = function () {
     	    if (xhr.readyState == 4) {
     	        if (xhr.status == 200) {
-    	            this.msg = xhr.responseText;
+    	            self.$set("msg",xhr.response);
     	        }
     	    }
     	};

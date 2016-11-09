@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import Favlist from './components/Favlist.vue'
+import todolist from './components/todoList.vue'
 
 new Vue({
 	el: 'body',
-	components: { Favlist }
+	components: { todolist }
 })
