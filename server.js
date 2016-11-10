@@ -2,6 +2,7 @@
 var express = require('express')
 var webpack = require('webpack')
 var config = require('./webpack.config')
+var mongoose = require('mongoose');
 
 // 创建一个express实例
 var app = express();
@@ -35,12 +36,45 @@ app.use(devMiddleware)
 // 注册中间件
 app.use(hotMiddleware)
 
+// Connect to MongoDB and create/use database called todoAppTest
+mongoose.connect('mongodb://localhost/todoAppTest');
+// Create a schema
+var TodoSchema = new mongoose.Schema({
+  name: String,
+  completed: Boolean,
+  note: String,
+  updated_at: { type: Date, default: Date.now },
+});
+// Create a model based on the schema
+var Todo = mongoose.model('Todo', TodoSchema);
+
+// Create a todo in memory
+var todo = new Todo({name: 'Master NodeJS', completed: false, note: 'Getting there...'});
+// Save it to database
+//uncomment it when first run
+/*todo.save(function(err){
+  if(err)
+    console.log(err);
+  else
+    console.log(todo);
+});*/
+
 /*app.get('/', function (req, res, next) {
   res.send('hello world')
 });*/
 
 app.get('/list', function (req, res, next) {
-  res.send('user 1');
+Todo.find( function(err, todo){
+    if(err) res.send(err);
+    res.json(todo);
+  });
+});
+
+app.get('/list/:id', function (req, res, next) {
+  Todo.findById(req.params.id, function(err, todo){
+    if(err) res.send(err);
+    res.json(todo);
+  });
 });
 
 

@@ -3,10 +3,13 @@
 	<h1>{{title}}</h1>
 	<input v-model="newList" v-on:keyup.enter="addNew"></input>
 	<ul>
-		<li v-for="item in items" v-bind:class="{finished: item.isFinished}" v-on:click="toggle(item)">{{item.label}}</li>
+	<li v-for="item in items" track-by="$index" v-bind:class="{finished: item.completed}" v-on:click="toggle(item)">
+		<h2>{{item.name}}</h2>
+		<span>Notes: {{item.note}}</span>
+		<span>Last Modified: {{item.updated_at}}</span>
+	</li>
 	</ul>
-
-	<div v-on:click="greeting">click me {{msg}}</div>
+	<div v-on:click="greeting">click me</div>
 </div>
 </template>
 
@@ -15,28 +18,18 @@ export default {
   data () {
     return {
       title: 'This is a todo list',
-      msg:'',
-      items:[
-      	{
-      		label:'coding',
-      		isFinished: false
-      	},
-       	{
-      		label:'sleeping',
-      		isFinished: true
-      	}     	
-      ],
+      items:'',
       newList:""
     }
   },
   methods:{
   	toggle(item){
-  		item.isFinished = !item.isFinished;
+  		item.completed = !item.completed;
   	},
   	addNew(){
   		this.items.push({
   			label:this.newList,
-  			isFinished:false
+  			completed:false
   		})
   		this.newList="";
   	},
@@ -44,11 +37,11 @@ export default {
   		var self = this;
   	 	var xhr = new XMLHttpRequest();
     	xhr.open('GET', 'http://localhost:8888/list', false);
-    	xhr.setRequestHeader("Content-Type", "text/plain");
+    	xhr.setRequestHeader("Content-Type", "application/json");
     	xhr.onreadystatechange = function () {
     	    if (xhr.readyState == 4) {
     	        if (xhr.status == 200) {
-    	            self.$set("msg",xhr.response);
+    	            self.$set("items",JSON.parse(xhr.response));
     	        }
     	    }
     	};
@@ -59,7 +52,7 @@ export default {
 </script>
 
 <style>
-.finished{
+.completed{
 	text-decoration: line-through;
 }
 </style>
