@@ -4,6 +4,8 @@ var webpack = require('webpack')
 var config = require('./webpack.config')
 var mongoose = require('mongoose');
 
+var bodyParser = require('body-parser');
+
 // 创建一个express实例
 var app = express();
 
@@ -36,17 +38,19 @@ var Todo = mongoose.model('Todo', TodoSchema);
 var todo = new Todo({name: 'Master NodeJS', completed: false, note: 'Getting there...'});
 // Save it to database
 //uncomment it when first run
-/*todo.save(function(err){
-  if(err)
-    console.log(err);
-  else
-    console.log(todo);
-});*/
+// todo.save(function(err){
+//   if(err)
+//     console.log(err);
+//   else
+//     console.log(todo);
+// });
 
 /*app.get('/', function (req, res, next) {
   res.send('hello world')
 });*/
 
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //get api
 app.get('/list', function (req, res, next) {
@@ -66,14 +70,15 @@ app.get('/list/:id', function (req, res, next) {
 //post api
 //create new one
 app.post('/list', function (req, res, next) {
-    console.log(req.params);
-    var todo = new Todo({name: req.params.name, completed: req.params.completed, note: req.params.note,updated_at:req.params.updated_at});
-/*    todo.save(function(err){
+    //console.log(req.body);
+    var todo = new Todo({name: req.body.name, completed: req.body.completed, note: req.body.note,updated_at:req.body.updated_at});
+    //res.json(req);
+    todo.save(function(err){
       if(err)
         console.log(err);
       else
-        console.log(todo);
-    });*/
+        res.json(todo);
+    });
 });
 
 //update api

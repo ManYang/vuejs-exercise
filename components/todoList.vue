@@ -32,15 +32,15 @@ export default {
   			completed:false
   		});*/
   		var obj = {
-  			name:this.newList,
-  			completed:false,
-  			note:"Default",
-  			updated_at:Date.now
+  			'name':this.newList,
+  			'completed':false,
+  			'note':"Default",
+  			'updated_at':Date.now
   		}
-  		this.newList="";
+      this.newList="";
   	 	var xhr = new XMLHttpRequest();
     	xhr.open('POST', 'http://localhost:8888/list', true);
-    	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    	xhr.setRequestHeader("Content-Type", "application/json");
     	xhr.onreadystatechange = function () {
     	    if (xhr.readyState == 4) {
     	        if (xhr.status == 200) {
@@ -48,7 +48,7 @@ export default {
     	        }
     	    }
     	};
-    	xhr.send(obj);
+    	xhr.send(JSON.stringify(obj));
   	},
   	getAll(){
   		var self = this;
