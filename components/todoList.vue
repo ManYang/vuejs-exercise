@@ -9,7 +9,7 @@
 		<span>Last Modified: {{item.updated_at}}</span>
 	</li>
 	</ul>
-	<div v-on:click="greeting">click me</div>
+	<div v-on:click="getAll">click me to get all todo list</div>
 </div>
 </template>
 
@@ -27,13 +27,30 @@ export default {
   		item.completed = !item.completed;
   	},
   	addNew(){
-  		this.items.push({
+  		/*this.items.push({
   			label:this.newList,
   			completed:false
-  		})
+  		});*/
+  		var obj = {
+  			name:this.newList,
+  			completed:false,
+  			note:"Default",
+  			updated_at:Date.now
+  		}
   		this.newList="";
+  	 	var xhr = new XMLHttpRequest();
+    	xhr.open('POST', 'http://localhost:8888/list', true);
+    	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    	xhr.onreadystatechange = function () {
+    	    if (xhr.readyState == 4) {
+    	        if (xhr.status == 200) {
+    	            getAll();
+    	        }
+    	    }
+    	};
+    	xhr.send(obj);
   	},
-  	greeting(){
+  	getAll(){
   		var self = this;
   	 	var xhr = new XMLHttpRequest();
     	xhr.open('GET', 'http://localhost:8888/list', false);

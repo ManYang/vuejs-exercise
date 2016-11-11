@@ -19,23 +19,6 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
     }
 })
 
-// 使用 webpack-hot-middleware 中间件
-var hotMiddleware = require('webpack-hot-middleware')(compiler)
-
-// webpack插件，监听html文件改变事件
-compiler.plugin('compilation', function (compilation) {
-    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-        // 发布事件
-        hotMiddleware.publish({ action: 'reload' })
-        cb()
-    })
-})
-
-// 注册中间件
-app.use(devMiddleware)
-// 注册中间件
-app.use(hotMiddleware)
-
 // Connect to MongoDB and create/use database called todoAppTest
 mongoose.connect('mongodb://localhost/todoAppTest');
 // Create a schema
@@ -45,6 +28,7 @@ var TodoSchema = new mongoose.Schema({
   note: String,
   updated_at: { type: Date, default: Date.now },
 });
+
 // Create a model based on the schema
 var Todo = mongoose.model('Todo', TodoSchema);
 
@@ -63,6 +47,8 @@ var todo = new Todo({name: 'Master NodeJS', completed: false, note: 'Getting the
   res.send('hello world')
 });*/
 
+
+//get api
 app.get('/list', function (req, res, next) {
 Todo.find( function(err, todo){
     if(err) res.send(err);
@@ -77,6 +63,53 @@ app.get('/list/:id', function (req, res, next) {
   });
 });
 
+//post api
+//create new one
+app.post('/list', function (req, res, next) {
+    console.log(req.params);
+    var todo = new Todo({name: req.params.name, completed: req.params.completed, note: req.params.note,updated_at:req.params.updated_at});
+/*    todo.save(function(err){
+      if(err)
+        console.log(err);
+      else
+        console.log(todo);
+    });*/
+});
+
+//update api
+//update name, note and date
+/*app.update('/list/:id', function (req, res, next) {
+  Todo.findByIdAndUpdate(req.params.id,{name: req.params.name, completed: req.params.completed, note: req.params.note,updated_at:Date.now},function(err, todo){
+    if(err) res.send(err);
+    res.json(todo);
+  });
+});*/
+
+//del api
+app.delete('/list/:id', function (req, res, next) {
+  Todo.findByIdAndRemove(req.params.id,function(err, todo){
+    if(err) res.send(err);
+    res.json(todo);
+  });
+});
+
+
+// 使用 webpack-hot-middleware 中间件
+var hotMiddleware = require('webpack-hot-middleware')(compiler)
+
+// webpack插件，监听html文件改变事件
+compiler.plugin('compilation', function (compilation) {
+    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+        // 发布事件
+        hotMiddleware.publish({ action: 'reload' })
+        cb()
+    })
+})
+
+// 注册中间件
+app.use(devMiddleware)
+// 注册中间件
+app.use(hotMiddleware)
 
 // 监听 8888端口，开启服务器
 app.listen(8888, function (err) {

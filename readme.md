@@ -10,4 +10,4 @@ in c, make dir c:/data/db as data directory. or specify another path use --dbpat
 node server.js or npm run dev
 
 4.run mongo
-mongod.exe and mongod.exe in MongoDB\Server\3.2\bin or whatever dir you installed
+mongod.exe and mongo.exe in MongoDB\Server\3.2\bin or whatever dir you installed
