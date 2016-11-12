@@ -56,14 +56,16 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.get('/list', function (req, res, next) {
 Todo.find( function(err, todo){
     if(err) res.send(err);
-    res.json(todo);
+    else
+        res.json(todo);
   });
 });
 
 app.get('/list/:id', function (req, res, next) {
   Todo.findById(req.params.id, function(err, todo){
     if(err) res.send(err);
-    res.json(todo);
+    else
+        res.json(todo);
   });
 });
 
@@ -83,18 +85,21 @@ app.post('/list', function (req, res, next) {
 
 //update api
 //update name, note and date
-/*app.update('/list/:id', function (req, res, next) {
-  Todo.findByIdAndUpdate(req.params.id,{name: req.params.name, completed: req.params.completed, note: req.params.note,updated_at:Date.now},function(err, todo){
+app.post('/list/:id', function (req, res, next) {
+  Todo.findByIdAndUpdate(req.params.id,{name: req.body.name, completed: req.body.completed, note: req.body.note,updated_at:req.body.updated_at},
+    function(err, todo){
     if(err) res.send(err);
-    res.json(todo);
+    else
+        res.json(todo);
   });
-});*/
+});
 
 //del api
 app.delete('/list/:id', function (req, res, next) {
   Todo.findByIdAndRemove(req.params.id,function(err, todo){
     if(err) res.send(err);
-    res.json(todo);
+    else
+        res.send('success delete');
   });
 });
 
