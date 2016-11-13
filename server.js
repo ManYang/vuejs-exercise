@@ -78,8 +78,14 @@ app.post('/list', function (req, res, next) {
     todo.save(function(err){
       if(err)
         console.log(err);
-      else
-        res.json(todo);
+      else{
+        //get all todos
+        Todo.find( function(err, todo){
+            if(err) res.send(err);
+            else
+                res.json(todo);
+        });
+      }
     });
 });
 
@@ -89,8 +95,14 @@ app.post('/list/:id', function (req, res, next) {
   Todo.findByIdAndUpdate(req.params.id,{name: req.body.name, completed: req.body.completed, note: req.body.note,updated_at:req.body.updated_at},
     function(err, todo){
     if(err) res.send(err);
-    else
-        res.json(todo);
+    else{
+        //get all todos
+        Todo.find( function(err, todo){
+            if(err) res.send(err);
+            else
+                res.json(todo);
+        });
+      }
   });
 });
 
@@ -98,11 +110,16 @@ app.post('/list/:id', function (req, res, next) {
 app.delete('/list/:id', function (req, res, next) {
   Todo.findByIdAndRemove(req.params.id,function(err, todo){
     if(err) res.send(err);
-    else
-        res.send('success delete');
+    else{
+        //get all todos
+        Todo.find( function(err, todo){
+            if(err) res.send(err);
+            else
+                res.json(todo);
+        });
+      }
   });
 });
-
 
 // 使用 webpack-hot-middleware 中间件
 var hotMiddleware = require('webpack-hot-middleware')(compiler)
