@@ -3,9 +3,10 @@ var express = require('express')
 var webpack = require('webpack')
 var config = require('./webpack.config')
 var mongoose = require('mongoose');
-
+//for parse the params in req body
 var bodyParser = require('body-parser');
-
+//import schema
+var Todo = require('./models/todoSchema');
 // 创建一个express实例
 var app = express();
 
@@ -23,7 +24,9 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 
 // Connect to MongoDB and create/use database called todoAppTest
 mongoose.connect('mongodb://localhost/todoAppTest');
+/*
 // Create a schema
+//already move to the models/todoSchema
 var TodoSchema = new mongoose.Schema({
   name: String,
   completed: Boolean,
@@ -33,22 +36,19 @@ var TodoSchema = new mongoose.Schema({
 
 // Create a model based on the schema
 var Todo = mongoose.model('Todo', TodoSchema);
+*/
 
-// Create a todo in memory
+/*
+//Create a todo in memory,uncomment it when first run
 var todo = new Todo({name: 'Master NodeJS', completed: false, note: 'Getting there...'});
-// Save it to database
-//uncomment it when first run
-// todo.save(function(err){
-//   if(err)
-//     console.log(err);
-//   else
-//     console.log(todo);
-// });
-
-/*app.get('/', function (req, res, next) {
-  res.send('hello world')
-});*/
-
+//Save it to database
+ todo.save(function(err){
+   if(err)
+     console.log(err);
+   else
+     console.log(todo);
+ });
+ */
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 

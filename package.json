@@ -18,6 +18,8 @@
     "css-loader": "^0.25.0",
     "express": "^4.14.0",
     "html-webpack-plugin": "^2.24.1",
+    "node-sass": "^3.12.2",
+    "sass-loader": "^4.0.2",
     "vue": "^1.0.26",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.2.3",
