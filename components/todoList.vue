@@ -1,20 +1,20 @@
 <template>
-<div>
+<div class="containter">
 	<h1>{{title}}</h1>
 	<div class="todolist">
-		<label>Name</label><input v-model="newListName" lazy></input>
-		<label>Note</label><input v-model="newListNote" lazy></input>
-		<div v-on:click="addNew">add new</div>
+		<label class="label">Name</label><input v-model="newListName" class="noteInput" placeholder="What would you like to do today?"lazy></input>
+		<label class="label">Note</label><input v-model="newListNote" class="noteInput" placeholder="What would you like to write down today?"lazy></input>
+		<div v-on:click="addNew" class="button blue bar">add new</div>
+		<div v-on:click="getAll" class="button blue bar">get all todos</div>	
 		<ul>
 		<li v-for="item in items" track-by="$index" v-bind:class="{finished: item.completed}" v-on:click="	toggle(item)">
-			<h2>Name: <input v-model="item.name"></h2>
-			<span>Notes: <input v-model="item.note"></span>
-			<span>Last Modified: {{item.updated_at}}</span>
-			<div v-on:click="updateItem(item)">update</div>
-			<div v-on:click="deleteItem(item)">delete</div>
+			<div><span class="label">Name: </span><input class="noteInput" v-model="item.name"></div>
+			<div><span class="label">Notes:</span><input class="noteInput" v-model="item.note"></div>
+			<div><span class="label">Last Modified:</span>{{item.updated_at.split('.')[0].replace('T', ' ')}}</div>
+			<div v-on:click="updateItem(item)" class="button green">update</div>
+			<div v-on:click="deleteItem(item)" class="button orange">delete</div>
 		</li>
-		</ul>
-		<div v-on:click="getAll">get all todo list</div>		
+		</ul	
 	</div>
 </div>
 </template>
@@ -108,22 +108,121 @@ export default {
 </script>
 
 <style lang="sass">
-.completed{
-	text-decoration: line-through;
+ * {
+    padding:0;
+    margin:0;
+}
+body{
+	background-color:#2a2a2a;
+}
+.containter{
+    background-color: #111216;
+    color:#999999;
+    width:650px;
+    margin: 50px auto auto auto;
+    padding-bottom:12px;
+    font-family:Helvetica;
 }
 .todolist{
-	background: #fff; margin: 150px 50px 50px; 
+	margin: 20px 40px; 
 	position: relative; 
-	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+	font-size:18px;
+  font-weight:600;
 }
+
+.label{
+	display:inline-block;
+	width:17%;
+}
+.button{
+	display:inline-block;
+	//border-radius:5px;
+	padding:10px 20px;
+	color: #fff;
+	&:hover{
+		//background-color:
+		cursor:pointer;
+	}
+}
+
+.green{
+	background-color: #3EAE7B;
+}
+.orange{
+	background-color:#DF5449;
+}
+.blue{
+	background-color:#5785C7;
+}
+
+.center{
+	text-align:center;
+}
+.noteInput {
+	width:80%;
+  font-size:14px;
+  font-family:'Open Sans', sans-serif;
+  height:36px;
+  display:inline-block;
+  border-radius:100px;
+  padding-left:15px; //for input cursor
+  background-color:#202023;
+  border:0;
+  color:#fff;
+  margin:10px 0px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+}
+.noteInput:focus{
+  box-shadow: 0px 0px 1pt 1pt #999999;
+ 	background-color:#111216; 
+  outline:none;
+}
+::-webkit-input-placeholder {
+    color: #666666;
+    font-style:italic;
+    /* padding-left:10px; */
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: #666666;
+    font-style:italic;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #666666;
+    font-style:italic;
+}
+:-ms-input-placeholder {
+    color: #666666;
+    font-style:italic;
+}
+
 h1 { 
-	position: absolute; 
-	top: 0px; width: 100%; 
-	font-size: 48px; font-weight: 600; 
+	font-size: 48px;
 	text-align: center; 
-	color: rgba(175, 47, 47, 0.15); 
+	padding:10px 0px;
+	color: #fff; 
+	background-color:#F94D50;
 	-webkit-text-rendering: optimizeLegibility; 
 	-moz-text-rendering: optimizeLegibility; 
 	text-rendering: optimizeLegibility;
-	 }
+}
+
+ul {
+	list-style:none;
+	margin: 0px -40px;
+  li{
+  	display:block;
+  	padding:20px 40px;
+  	margin:10px 0px;
+  	background-color:#17181D;
+  }
+}
+
+.completed{
+	text-decoration: line-through;
+}
 </style>
