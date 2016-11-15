@@ -4,15 +4,15 @@
 	<div class="todolist">
 		<label class="label">Name</label><input v-model="newListName" class="noteInput" placeholder="What would you like to do today?"lazy></input>
 		<label class="label">Note</label><input v-model="newListNote" class="noteInput" placeholder="What would you like to write down today?"lazy></input>
-		<div v-on:click="addNew" class="button blue bar">add new</div>
-		<div v-on:click="getAll" class="button blue bar">get all todos</div>	
+		<div v-on:click="addNew" class="button blue">add new</div>
+		<div v-on:click="getAll" class="button blue">get all todos</div>	
 		<ul>
 		<li v-for="item in items" track-by="$index" v-bind:class="{finished: item.completed}" v-on:click="	toggle(item)">
 			<div><span class="label">Name: </span><input class="noteInput" v-model="item.name"></div>
 			<div><span class="label">Notes:</span><input class="noteInput" v-model="item.note"></div>
 			<div><span class="label">Last Modified:</span>{{item.updated_at.split('.')[0].replace('T', ' ')}}</div>
-			<div v-on:click="updateItem(item)" class="button green">update</div>
-			<div v-on:click="deleteItem(item)" class="button orange">delete</div>
+			<div v-on:click="updateItem(item)" class="button green center">update</div>
+			<div v-on:click="deleteItem(item)" class="button orange center">delete</div>
 		</li>
 		</ul	
 	</div>
@@ -126,6 +126,7 @@ body{
 .todolist{
 	margin: 20px 40px; 
 	position: relative; 
+	display:block;
 	font-size:18px;
   font-weight:600;
 }
@@ -136,23 +137,36 @@ body{
 }
 .button{
 	display:inline-block;
-	//border-radius:5px;
+	text-align: center;
+	margin:15px 5px 10px 0px;
+	//border-radius:3px;
 	padding:10px 20px;
 	color: #fff;
 	&:hover{
-		//background-color:
 		cursor:pointer;
 	}
 }
 
 .green{
-	background-color: #3EAE7B;
+	background-color: #55C175;
+	&:hover{
+		opacity:.8;
+		background-color:darken(#55C175, 20%);
+	}
 }
 .orange{
-	background-color:#DF5449;
+	background-color:#D96F5F;
+	&:hover{
+		opacity:.8;
+		background-color:darken(#D96F5F, 20%);
+	}	
 }
 .blue{
 	background-color:#5785C7;
+	&:hover{
+		opacity:.8;
+		background-color:darken(#5785C7, 20%);
+	}	
 }
 
 .center{
@@ -205,7 +219,7 @@ h1 {
 	text-align: center; 
 	padding:10px 0px;
 	color: #fff; 
-	background-color:#F94D50;
+	background-color:#D96F5F;
 	-webkit-text-rendering: optimizeLegibility; 
 	-moz-text-rendering: optimizeLegibility; 
 	text-rendering: optimizeLegibility;
@@ -213,7 +227,7 @@ h1 {
 
 ul {
 	list-style:none;
-	margin: 0px -40px;
+	margin: 0px -40px; //with todolist margin
   li{
   	display:block;
   	padding:20px 40px;
