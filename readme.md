@@ -1,13 +1,20 @@
 #how to run:
 
-1. npm install
+1.npm install
 
-2. install mongodb in windows
+2.install mongodb in windows
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition
 in c, make dir c:/data/db as data directory. or specify another path use --dbpath
 
-3. in root dir
+3.in root dir
 node server.js or npm run dev
 
 4.run mongo
 mongod.exe and mongo.exe in MongoDB\Server\3.2\bin or whatever dir you installed
+
+5.tutorial
+unit testing: https://vue-loader.vuejs.org/en/workflow/testing.html
+
+for karma command line, need sudo npm install -g karma-cli
+for show test results in browser
+http://stackoverflow.com/questions/17289423/need-proper-reporter-for-karma-jasmine
