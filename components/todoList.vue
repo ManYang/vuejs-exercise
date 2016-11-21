@@ -41,7 +41,7 @@ export default {
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
-									self.$set("items",JSON.parse(xhr.response));
+								self.$set("items",JSON.parse(xhr.response));
 							}
 					}
 			};
@@ -63,7 +63,7 @@ export default {
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
-									self.$set("items",JSON.parse(xhr.response));
+								self.$set("items",JSON.parse(xhr.response));
 							}
 					}
 			};
@@ -83,7 +83,7 @@ export default {
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
-									self.$set("items",JSON.parse(xhr.response));
+								self.$set("items",JSON.parse(xhr.response));
 							}
 					}
 			};
@@ -97,7 +97,7 @@ export default {
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
-									self.$set("items",JSON.parse(xhr.response));
+								self.$set("items",JSON.parse(xhr.response));
 							}
 					}
 			};
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style lang="sass">
- * {
+*{
     padding:0;
     margin:0;
 }
