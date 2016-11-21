@@ -121,14 +121,13 @@ body{
     width:650px;
     margin: 50px auto auto auto;
     padding-bottom:12px;
-    font-family:Helvetica;
 }
 .todolist{
 	margin: 20px 40px; 
 	position: relative; 
 	display:block;
 	font-size:18px;
-  font-weight:600;
+  	font-weight:600;
 }
 
 .label{

@@ -1,7 +1,9 @@
 import Vue from 'vue'
-import todolist from './components/todoList.vue'
+//import VueResource from'vue-resource';
+import App from './components/App.vue'
+//Vue.use(VueResource);
 
 new Vue({
 	el: 'body',
-	components: { todolist }
+	components: { App }
 })
