@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<span>Hello, {{username}}</span>
+		<span>Hello, {{message}}</span>
 		<span>remains todo</span>
 	</div>
 </template>
@@ -12,7 +12,7 @@
 				username: 'Yang'
 			}
 		},
-		props:['listNum'],
+		props:['message'],
 		methods:{
 		}
 	}
