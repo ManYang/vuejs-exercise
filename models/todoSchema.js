@@ -7,6 +7,7 @@ var todoSchema = Schema({
   name: String,
   completed: Boolean,
   note: String,
+  tags:[String],
   updated_at: { type: Date, default: Date.now },
 });
 

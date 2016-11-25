@@ -1,21 +1,23 @@
 <template>
 	<div>
-		<todo-header ></todo-header>
-		<todo-list></todo-list>
+		<todo-tag :tags="taglist"></todo-tag>
+		{{oriTagList}}
+		<todo-list :ori-tag-list.sync="oriTagList"></todo-list>
 	</div>
 </template>
 
 <script>
 	import todoList from './todoList.vue'
-	import todoHeader from './todoHeader.vue'
+	import todoTag from './todoTag.vue'
 	export default{
 		data(){
 			return {
-				msg:'123'
+				taglist:'123',
+				oriTagList:"456"
 			}
 		},
 		components:{
-			'todoHeader':todoHeader,
+			'todoTag':todoTag,
 			'todoList':todoList
 		}
 	}

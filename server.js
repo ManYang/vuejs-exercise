@@ -24,31 +24,7 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 
 // Connect to MongoDB and create/use database called todoAppTest
 mongoose.connect('mongodb://localhost/todoAppTest');
-/*
-// Create a schema
-//already move to the models/todoSchema
-var TodoSchema = new mongoose.Schema({
-  name: String,
-  completed: Boolean,
-  note: String,
-  updated_at: { type: Date, default: Date.now },
-});
 
-// Create a model based on the schema
-var Todo = mongoose.model('Todo', TodoSchema);
-*/
-
-/*
-//Create a todo in memory,uncomment it when first run
-var todo = new Todo({name: 'Master NodeJS', completed: false, note: 'Getting there...'});
-//Save it to database
- todo.save(function(err){
-   if(err)
-     console.log(err);
-   else
-     console.log(todo);
- });
- */
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -73,7 +49,7 @@ app.get('/list/:id', function (req, res, next) {
 //create new one
 app.post('/list', function (req, res, next) {
     //console.log(req.body);
-    var todo = new Todo({name: req.body.name, completed: req.body.completed, note: req.body.note,updated_at:req.body.updated_at});
+    var todo = new Todo({name: req.body.name, completed: req.body.completed, note: req.body.note, tags: req.body.tags, updated_at:req.body.updated_at});
     //res.json(req);
     todo.save(function(err){
       if(err)
@@ -92,7 +68,7 @@ app.post('/list', function (req, res, next) {
 //update api
 //update name, note and date
 app.post('/list/:id', function (req, res, next) {
-  Todo.findByIdAndUpdate(req.params.id,{name: req.body.name, completed: req.body.completed, note: req.body.note,updated_at:req.body.updated_at},
+  Todo.findByIdAndUpdate(req.params.id,{name: req.body.name, completed: req.body.completed, note: req.body.note,tags: req.body.tags, updated_at:req.body.updated_at},
     function(err, todo){
     if(err) res.send(err);
     else{

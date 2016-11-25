@@ -4,17 +4,22 @@
 	<div class="todolist">
 		<label class="label">Name</label><input v-model="newListName" class="noteInput" placeholder="What would you like to do today?"lazy></input>
 		<label class="label">Note</label><input v-model="newListNote" class="noteInput" placeholder="What would you like to write down today?"lazy></input>
+		<label class="label">Tags</label><input v-model="newListTag" class="noteInput" placeholder="Tag is separated by ,"lazy></input>		
 		<div v-on:click="addNew" class="button blue">add new</div>
 		<div v-on:click="getAll" class="button blue">get all todos</div>	
 		<ul>
-		<li v-for="item in items" track-by="$index" v-bind:class="{finished: item.completed}" v-on:click="	toggle(item)">
-			<div><span class="label">Name: </span><input class="noteInput" v-model="item.name"></div>
+		<li v-for="item in items" track-by="$index" v-on:click="toggle(item)">
+			<div><span class="label" v-bind:class="{finished: item.completed}">Name: </span><input class="noteInput" v-bind:class="{finished: item.completed}" v-model="item.name"></div>
 			<div><span class="label">Notes:</span><input class="noteInput" v-model="item.note"></div>
+			<div><span class="label">Tags:</span><input class="noteInput" v-model="item.tags">
+				<!-- <div class="tag" v-for="tag in item.tags" track-by="$index">{{tag}}</div> -->
+			</div>
 			<div><span class="label">Last Modified:</span>{{item.updated_at.split('.')[0].replace('T', ' ')}}</div>
+			<div>Complete: <input type="checkbox" v-model="item.completed" v-on:change="updateItem(item)"/></div>
 			<div v-on:click="updateItem(item)" class="button green center">update</div>
 			<div v-on:click="deleteItem(item)" class="button orange center">delete</div>
 		</li>
-		</ul	
+		</ul>	
 	</div>
 </div>
 </template>
@@ -26,8 +31,13 @@ export default {
 			title: 'This is a todo list',
 			items:'',
 			newListName:"",
-			newListNote:""
+			newListNote:"",
+			newListTag:""
 		}
+	},
+	props:['oriTagList'],
+	ready:function(){
+			this.getAll();
 	},
 	methods:{
 		toggle(item){
@@ -42,6 +52,13 @@ export default {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
 								self.$set("items",JSON.parse(xhr.response));
+								//pass tags to parent
+								var arr=[];
+								self.items.forEach(function(a,b){
+									//console.log(a.tags.toString());
+									arr.push(a.tags.toString());
+								});
+								self.$set("oriTagList",arr.join(",").split(','));
 							}
 					}
 			};
@@ -52,10 +69,12 @@ export default {
 				'name':this.newListName,
 				'completed':false,
 				'note':this.newListNote? this.newListNote: "Default",
+				'tags':this.newListTag? this.newListTag.split(","): "Null",
 				'updated_at':Date.now()
 			}
 			this.newListNote="";
 			this.newListName="";
+			this.newListTag="";
 			var self = this;
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'http://localhost:8888/list', true);
@@ -70,13 +89,18 @@ export default {
 			xhr.send(JSON.stringify(obj));
 		},
 		updateItem(item){
+			if(typeof item.tags != "string"){
+				item.tags = item.tags.join(',');
+			}
 			var obj = {
 				'name':item.name,
 				'completed':item.completed,
 				'note':item.note,
+				'tags':item.tags? item.tags.split(",") :"Null",
 				'updated_at':Date.now()
 			}
 			var self = this;
+			
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'http://localhost:8888/list/'+item._id, true);
 			xhr.setRequestHeader("Content-Type", "application/json");
@@ -235,7 +259,8 @@ ul {
   }
 }
 
-.completed{
+.finished{
 	text-decoration: line-through;
+
 }
 </style>

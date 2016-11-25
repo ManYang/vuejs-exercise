@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
-		<span>Hello, {{username}}</span>
-		<span>remains todo</span>
+		<span>Popular Tags:</span>
+		<span>{{tags}}</span>
 	</div>
 </template>
 
@@ -9,10 +9,10 @@
 	export default{
 		data(){
 			return {
-				username: 'Yang'
+				//tags: 'Yang'
 			}
 		},
-		props:['listNum'],
+		props:['tags'],
 		methods:{
 		}
 	}
