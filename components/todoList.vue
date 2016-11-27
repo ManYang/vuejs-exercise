@@ -58,7 +58,8 @@ export default {
 									//console.log(a.tags.toString());
 									arr.push(a.tags.toString());
 								});
-								self.$set("oriTagList",arr.join(",").split(','));
+								//emit message to father elem
+								self.$emit("update-from-todo", arr.join(",").split(','));
 							}
 					}
 			};
@@ -108,6 +109,14 @@ export default {
 					if (xhr.readyState == 4) {
 							if (xhr.status == 200) {
 								self.$set("items",JSON.parse(xhr.response));
+								//pass tags to parent
+								var arr=[];
+								self.items.forEach(function(a,b){
+									//console.log(a.tags.toString());
+									arr.push(a.tags.toString());
+								});
+								//emit message to father elem
+								self.$emit("update-from-todo", arr.join(",").split(','));
 							}
 					}
 			};
