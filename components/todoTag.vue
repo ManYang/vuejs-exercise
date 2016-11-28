@@ -2,7 +2,7 @@
 	<div class="header">
 		<span>All Tags:</span>
 		<ul class="tags">
-  			<li v-for="tag in tags" track-by="$index">{{tag}}</li>
+  			<li v-for="tag in tags">{{tag}}</li>
 		</ul>
 	</div>
 </template>

@@ -1,7 +1,7 @@
 {
   "name": "vue-test",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "upgrade from vue1 to vue2",
   "main": "index.js",
   "scripts": {
     "test": "karma start karma.config.js",
@@ -27,7 +27,6 @@
     "karma-webpack": "^1.8.0",
     "node-sass": "^3.12.2",
     "sass-loader": "^4.0.2",
-    "vue": "^1.0.26",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^8.5.2",
@@ -40,6 +39,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "mongoose": "^4.6.6",
-    "vue": "^1.0.26"
+    "vue": "^2.0.1",
+    "vue-resource": "^1.0.3"
   }
 }

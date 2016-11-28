@@ -16,6 +16,9 @@ module.exports = {
         //chunkFilename: '[id].[chunkhash].js'
     },
     resolve: {
+        alias: {
+        'vue$': 'vue/dist/vue.common.js'
+        },
         extensions: ['', '.js', '.vue']
     },
     module: {

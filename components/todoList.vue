@@ -8,11 +8,10 @@
 		<div v-on:click="addNew" class="button blue">add new</div>
 		<div v-on:click="getAll" class="button blue">get all todos</div>	
 		<ul>
-		<li v-for="item in items" track-by="$index" v-on:click="toggle(item)">
+		<li v-for="item in items" v-on:click="toggle(item)">
 			<div><span class="label" v-bind:class="{finished: item.completed}">Name: </span><input class="noteInput" v-bind:class="{finished: item.completed}" v-model="item.name"></div>
 			<div><span class="label">Notes:</span><input class="noteInput" v-model="item.note"></div>
 			<div><span class="label">Tags:</span><input class="noteInput" v-model="item.tags">
-				<!-- <div class="tag" v-for="tag in item.tags" track-by="$index">{{tag}}</div> -->
 			</div>
 			<div><span class="label">Last Modified:</span>{{item.updated_at.split('.')[0].replace('T', ' ')}}</div>
 			<div>Complete: <input type="checkbox" v-model="item.completed" v-on:change="updateItem(item)"/></div>
@@ -36,37 +35,29 @@ export default {
 		}
 	},
 	props:['oriTagList'],
-	ready:function(){
-			this.getAll();
+	mounted:function(){
+		this.getAll();
 	},
 	methods:{
 		toggle(item){
 			item.completed = !item.completed;			
 		},
 		getAll(){
-			var self = this;
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', 'http://localhost:8888/list', false);
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4) {
-						if (xhr.status == 200) {
-							self.$set("items",JSON.parse(xhr.response));
-							//pass tags to parent
-							var arr=[];
-							self.items.forEach(function(a,b){
-								if(a.tags[0] != "Null"){
-									var tag = a.tags.toString().replace(/,\s*$/, "").split(",");
-									console.log(tag);
-									arr = arr.concat(tag);
-								}
-							});
-							//emit message to father elem
-							self.$emit("update-from-todo", arr);
-						}
-					}
-			};
-			xhr.send(null);
+  			this.$http.get('http://localhost:8888/list').then((response) => {
+			// success callback
+			this.items= response.body;
+			//emit message to father elem
+			var arr=[];
+			this.items.forEach(function(a){
+				arr=arr.concat(a.tags);
+			});
+			var uniqueArr = arr.filter(function(item, pos) {
+			    return arr.indexOf(item) == pos;
+			})
+			this.$emit("update-from-todo", uniqueArr);			  
+			}, (response) => {
+			  // error callback
+			});
 		},    
 		addNew(){
 			var obj = {
@@ -79,18 +70,12 @@ export default {
 			this.newListNote="";
 			this.newListName="";
 			this.newListTag="";
-			var self = this;
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST', 'http://localhost:8888/list', true);
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4) {
-							if (xhr.status == 200) {
-								self.$set("items",JSON.parse(xhr.response));
-							}
-					}
-			};
-			xhr.send(JSON.stringify(obj));
+			this.$http.post('http://localhost:8888/list',JSON.stringify(obj)).then((response) => {
+				// success callback
+				this.items= response.body;
+				}, (response) => {
+				  // error callback
+			});
 		},
 		updateItem(item){
 			if(typeof item.tags != "string"){
@@ -103,44 +88,30 @@ export default {
 				'tags':item.tags? item.tags.split(",") :"Null",
 				'updated_at':Date.now()
 			}
-			var self = this;
-			
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST', 'http://localhost:8888/list/'+item._id, true);
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4) {
-						if (xhr.status == 200) {
-							self.$set("items",JSON.parse(xhr.response));
-							//pass tags to parent
-							var arr=[];
-							self.items.forEach(function(a,b){
-								if(a.tags[0] != "Null"){
-									var tag = a.tags.toString().replace(/,\s*$/, "").split(",");
-									console.log(tag);
-									arr = arr.concat(tag);
-								}
-							});
-							//emit message to father elem
-							self.$emit("update-from-todo", arr);
-						}
-					}
-			};
-			xhr.send(JSON.stringify(obj));
+
+			this.$http.post('http://localhost:8888/list/'+item._id,JSON.stringify(obj)).then((response) => {
+				// success callback
+				this.items= response.body;
+				//emit message to father elem
+				var arr=[];
+				this.items.forEach(function(a){
+					arr=arr.concat(a.tags);
+				});
+				var uniqueArr = arr.filter(function(item, pos) {
+				    return arr.indexOf(item) == pos;
+				})
+				this.$emit("update-from-todo", uniqueArr);					
+				}, (response) => {
+				  // error callback
+			});	
 		},
 		deleteItem(item){
-			var self = this;
-			var xhr = new XMLHttpRequest();
-			xhr.open('DELETE', 'http://localhost:8888/list/'+item._id, true);
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4) {
-							if (xhr.status == 200) {
-								self.$set("items",JSON.parse(xhr.response));
-							}
-					}
-			};
-			xhr.send(null);
+			this.$http.delete('http://localhost:8888/list/'+item._id).then((response) => {
+				// success callback
+				this.items= response.body;
+				}, (response) => {
+				  // error callback
+			});
 		}
 	}
 }
