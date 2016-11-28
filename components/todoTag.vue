@@ -34,10 +34,10 @@
 	ul.tags{
 		display: block;
 		li{
+			font-size:18px;
 			display: inline-block;
-			padding:5px 25px;
+			padding:10px 25px;
 			background-color:#5785C7;
-			border-radius: 5px;
 			margin: 0px 5px;
 		}		
 	}

@@ -32,9 +32,10 @@
 			'filterText':function(newVal, oldVal){
 				if(newVal != oldVal){
 					this.filteredList =this.taglist.filter(function(obj){
-							return obj.indexOf(newVal) !=-1
+							return obj.trim() && obj.indexOf(newVal) !=-1
 					})
 				}
+				console.log(this.filteredList);
 			}
 		}
 	}
@@ -48,17 +49,17 @@
 		text-align: center;
 		margin: 0 auto;
 		input{
-  		font-size:30px;
-  		font-family:'Open Sans', sans-serif;
-  		height:36px;
-  		display:inline-block;
-  		border-radius:5px;
-  		padding-left:15px; //for input cursor
-  		background-color:#202023;
-  		border:0;
-  		color:#fff;
-    	box-shadow: 0px 0px 1pt 1pt #999999;
- 		background-color:#111216; 			
+  			font-size:30px;
+  			font-family:'Open Sans', sans-serif;
+  			height:36px;
+  			display:inline-block;
+  			border-radius:5px;
+  			padding-left:15px; //for input cursor
+  			background-color:#202023;
+  			border:0;
+  			color:#fff;
+    		box-shadow: 0px 0px 1pt 1pt #999999;
+ 			background-color:#111216; 			
 		}
 	}
 	.appName{
@@ -68,19 +69,7 @@
 		color:#fff;
 		background-color:#202023;
 		text-align:center;
-		margin:10px auto;
+		padding-top:20px;
+		margin:0px auto;
 	}
-	input {
-  		font-size:30px;
-  		font-family:'Open Sans', sans-serif;
-  		height:36px;
-  		display:inline-block;
-  		border-radius:100px;
-  		padding-left:15px; //for input cursor
-  		background-color:#202023;
-  		border:0;
-  		color:#fff;
-    	box-shadow: 0px 0px 1pt 1pt #999999;
- 		background-color:#111216; 
-}
 </style>

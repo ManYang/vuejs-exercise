@@ -50,17 +50,20 @@ export default {
 			xhr.setRequestHeader("Content-Type", "application/json");
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
-							if (xhr.status == 200) {
-								self.$set("items",JSON.parse(xhr.response));
-								//pass tags to parent
-								var arr=[];
-								self.items.forEach(function(a,b){
-									//console.log(a.tags.toString());
-									arr.push(a.tags.toString());
-								});
-								//emit message to father elem
-								self.$emit("update-from-todo", arr.join(",").split(','));
-							}
+						if (xhr.status == 200) {
+							self.$set("items",JSON.parse(xhr.response));
+							//pass tags to parent
+							var arr=[];
+							self.items.forEach(function(a,b){
+								if(a.tags[0] != "Null"){
+									var tag = a.tags.toString().replace(/,\s*$/, "").split(",");
+									console.log(tag);
+									arr = arr.concat(tag);
+								}
+							});
+							//emit message to father elem
+							self.$emit("update-from-todo", arr);
+						}
 					}
 			};
 			xhr.send(null);
@@ -107,17 +110,20 @@ export default {
 			xhr.setRequestHeader("Content-Type", "application/json");
 			xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
-							if (xhr.status == 200) {
-								self.$set("items",JSON.parse(xhr.response));
-								//pass tags to parent
-								var arr=[];
-								self.items.forEach(function(a,b){
-									//console.log(a.tags.toString());
-									arr.push(a.tags.toString());
-								});
-								//emit message to father elem
-								self.$emit("update-from-todo", arr.join(",").split(','));
-							}
+						if (xhr.status == 200) {
+							self.$set("items",JSON.parse(xhr.response));
+							//pass tags to parent
+							var arr=[];
+							self.items.forEach(function(a,b){
+								if(a.tags[0] != "Null"){
+									var tag = a.tags.toString().replace(/,\s*$/, "").split(",");
+									console.log(tag);
+									arr = arr.concat(tag);
+								}
+							});
+							//emit message to father elem
+							self.$emit("update-from-todo", arr);
+						}
 					}
 			};
 			xhr.send(JSON.stringify(obj));
@@ -152,7 +158,7 @@ body{
     background-color: #111216;
     color:#999999;
     width:650px;
-    margin: 50px auto auto auto;
+    margin: 20px auto auto auto;
     padding-bottom:12px;
 }
 .todolist{
@@ -206,25 +212,25 @@ body{
 }
 .noteInput {
 	width:80%;
-  font-size:14px;
-  font-family:'Open Sans', sans-serif;
-  height:36px;
-  display:inline-block;
-  border-radius:100px;
-  padding-left:15px; //for input cursor
-  background-color:#202023;
-  border:0;
-  color:#fff;
-  margin:10px 0px;
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
+  	font-size:14px;
+  	font-family:'Open Sans', sans-serif;
+  	height:36px;
+  	display:inline-block;
+  	border-radius:100px;
+  	padding-left:15px; //for input cursor
+  	background-color:#202023;
+  	border:0;
+  	color:#fff;
+  	margin:10px 0px;
+  	-webkit-transition: all 0.30s ease-in-out;
+  	-moz-transition: all 0.30s ease-in-out;
+  	-ms-transition: all 0.30s ease-in-out;
+  	-o-transition: all 0.30s ease-in-out;
 }
 .noteInput:focus{
-  box-shadow: 0px 0px 1pt 1pt #999999;
+  	box-shadow: 0px 0px 1pt 1pt #999999;
  	background-color:#111216; 
-  outline:none;
+  	outline:none;
 }
 ::-webkit-input-placeholder {
     color: #666666;
