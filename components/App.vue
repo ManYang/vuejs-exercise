@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<div class="filter appName">Tag Filter:  <input v-model="filterText" type="text" debonce="500"></div>
+		<div class="filter appName">Tag Filter:  
+			<input v-model="filterText" type="text" debonce="500">
+		</div>
 		<todo-tag :tags="filteredList"></todo-tag>
 		<todo-list v-on:update-from-todo="update"></todo-list>
 	</div>

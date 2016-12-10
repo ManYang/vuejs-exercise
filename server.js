@@ -49,7 +49,12 @@ app.get('/list/:id', function (req, res, next) {
 //create new one
 app.post('/list', function (req, res, next) {
     //console.log(req.body);
-    var todo = new Todo({name: req.body.name, completed: req.body.completed, note: req.body.note, tags: req.body.tags, updated_at:req.body.updated_at});
+    var todo = new Todo({
+        name: req.body.name,
+        completed: req.body.completed, 
+        note: req.body.note, tags: req.body.tags, 
+        updated_at:req.body.updated_at
+    });
     //res.json(req);
     todo.save(function(err){
       if(err)
@@ -68,7 +73,14 @@ app.post('/list', function (req, res, next) {
 //update api
 //update name, note and date
 app.post('/list/:id', function (req, res, next) {
-  Todo.findByIdAndUpdate(req.params.id,{name: req.body.name, completed: req.body.completed, note: req.body.note,tags: req.body.tags, updated_at:req.body.updated_at},
+  Todo.findByIdAndUpdate(req.params.id,
+    {
+        name: req.body.name, 
+        completed: req.body.completed, 
+        note: req.body.note,tags: 
+        req.body.tags, 
+        updated_at:req.body.updated_at
+    },
     function(err, todo){
     if(err) res.send(err);
     else{
