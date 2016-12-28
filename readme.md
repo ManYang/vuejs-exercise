@@ -10,7 +10,7 @@ It enables CURD operation for single todo list, add and edit tags, and search by
 
 #＃how to run:
 
-1. git clone
+1.git clone
 
 2.npm install
 
